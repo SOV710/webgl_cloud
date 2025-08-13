@@ -7,8 +7,8 @@ const gl = canvas.getContext("webgl2", {
 if (!gl) alert("WebGL2 not supported");
 
 /* 线性缩放系数（与 CSS --scale 保持一致 */
-const X_SCALE = 0.3;
-const Y_SCALE = 0.3;
+const X_SCALE = 0.5;
+const Y_SCALE = 0.5;
 
 /* 如果设备 DPR 很高，可进一步削弱实际 DPR（可选） */
 const DPR_CAP = 1.0; // 设为 1 避免 2x/3x 真渲染，进一步提速
