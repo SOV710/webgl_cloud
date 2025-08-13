@@ -9,11 +9,14 @@ uniform sampler2D iChannel0;
 
 out vec4 outColor;
 
-// 直接沿用你的 ShaderToy 宏（依赖局部变量 p 与 s）
-#define T texture(iChannel0,(s*p.zw+ceil(s*p.x))/2e2).y/(s+=s)*4.
+float sampleT(inout float s, vec4 p) {
+    vec2 uv = (s * p.zw + ceil(s * p.x)) / 200.0;
+    float y = texture(iChannel0, uv).y;
+    s += s;              // 明确顺序
+    return y / s * 4.0;
+}
 
 void mainImage(out vec4 O, vec2 x){
-    // 与原 ShaderToy 等价，但把 p 明确初始化为 0，避免未定义行为
     vec4 p = vec4(0.0);
     vec4 d = vec4(.8, 0.0, x/iResolution.y - .8);
     vec4 c = vec4(.6, .7, d);
@@ -25,7 +28,11 @@ void mainImage(out vec4 O, vec2 x){
     {
         p.xz += iTime;
         s = 2.0;
-        f = p.w + 1.0 - T - T - T - T;
+        float t1 = sampleT(s, p);
+        float t2 = sampleT(s, p);
+        float t3 = sampleT(s, p);
+        float t4 = sampleT(s, p);
+        f = p.w + 1.0 - t1 - t2 - t3 - t4;
         // 条件表达式：f<0 时累加，>=0 不变
         O += (f < 0.0) ? (O - 1.0 - f * c.zyxw) * f * 0.4 : vec4(0.0);
     }
