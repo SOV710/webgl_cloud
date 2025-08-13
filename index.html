@@ -1,0 +1,66 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>WebGL2 Modular Shader (No Build)</title>
+<style>
+    :root {
+        --scale: 0.5;
+    }
+
+    /* 0.5 ⇒ 线性缩放半宽半高（面积四分之一） */
+
+    /* 让舞台居中铺满视口 */
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        background: #111;
+        color: #fff;
+    }
+
+    .center {
+        display: grid;
+        place-items: center;
+        /* 水平+垂直居中 */
+        height: 100%;
+    }
+
+    /* 舞台容器（对它做整体缩放） */
+    .stage {
+        position: relative;
+        width: 100vw;
+        /* 舞台逻辑尺寸：仍按全屏计算 */
+        height: 100vh;
+        transform: scale(var(--scale));
+        transform-origin: center center;
+    }
+
+    /* 画布充满“舞台” */
+    #c {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    /* 文本覆盖层 */
+    .overlay {
+        position: absolute;
+        left: 50%;
+        top: 8%;
+        transform: translateX(-50%);
+        padding: .5rem .75rem;
+        background: rgba(0, 0, 0, .45);
+        border-radius: .5rem;
+        font: 600 30px/1.4 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+        letter-spacing: .3px;
+        pointer-events: none;
+        /* 不阻挡鼠标 */
+        text-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+    }
+</style>
+<div class="center">
+    <div class="stage">
+        <canvas id="c"></canvas>
+        <div class="overlay">Hello, World!</div>
+    </div>
+</div>
+<script type="module" src="./main.js"></script>
